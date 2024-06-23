@@ -1,5 +1,5 @@
 package com.company.service;
 
 public interface UserService {
-    public void userVerify();
+    public boolean userVerify(String userCode, String userPassword);
 }

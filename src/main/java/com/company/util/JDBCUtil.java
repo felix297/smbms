@@ -1,23 +1,17 @@
 package com.company.util;
 
-import com.company.pojo.User;
+import org.junit.jupiter.api.Test;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
-import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 
 public class JDBCUtil {
-    @Test
-    public void selectAll () {
-
-    }
-
-    public static Connection getConnection () {
-        InputStream input = ClassLoader.getSystemResourceAsStream("db.properties");
+    public static Connection getConnection() {
+        InputStream input = JDBCUtil.class.getClassLoader().getResourceAsStream("db.properties");
         Properties properties = new Properties();
         try {
             properties.load(input);
@@ -28,9 +22,9 @@ public class JDBCUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
-
 
     public static void closeAll (Connection connection, Statement statement, ResultSet result) {
         try {
@@ -49,9 +43,9 @@ public class JDBCUtil {
             e.printStackTrace();
         }
     }
+
     public static void closeAll (Connection connection, Statement statement) {
         ResultSet result = null;
         closeAll(connection, statement, result);
     }
-
 }

@@ -4,10 +4,7 @@ import java.sql.PreparedStatement;
 import com.company.pojo.User;
 import com.company.util.JDBCUtil;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import com.company.dao.BaseDao;
 
 public class UserDaoImpl implements UserDao {
     @Override
@@ -34,7 +31,6 @@ public class UserDaoImpl implements UserDao {
                 user.setCreationDate(res.getString(11));
                 user.setModifyBy(res.getString(12));
                 user.setModifyDate(res.getString(13));
-//                System.out.println(user.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
