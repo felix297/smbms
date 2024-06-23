@@ -13,11 +13,12 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         ResultSet res = null;
         String sql = "select * from smbms_user where userCode = ?;";
-        User user = new User();
+        User user = null;
         Object[] params = {userCode};
         res = BaseDao.selectByAttribute(connection, preparedStatement, res, sql, params);
         try {
             while (res != null && res.next()) {
+                user = new User();
                 user.setId(res.getInt(1));
                 user.setUserCode(res.getString(2));
                 user.setUserName(res.getString(3));
