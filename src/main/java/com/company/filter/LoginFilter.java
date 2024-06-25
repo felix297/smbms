@@ -24,8 +24,7 @@ public class LoginFilter implements Filter {
             if (request.getSession().getAttribute("sessionId") != null){
                 chain.doFilter(request, response);
             } else {
-                System.out.println("please login!");
-                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
             }
         } catch (IOException | ServletException e) {
             e.printStackTrace();
@@ -34,6 +33,5 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy () {
-
     }
 }

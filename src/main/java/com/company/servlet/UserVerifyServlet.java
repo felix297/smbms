@@ -11,7 +11,6 @@ public class UserVerifyServlet extends HttpServlet {
     public void doGet (HttpServletRequest request, HttpServletResponse response) {
         String userCode = request.getParameter("userCode");
         String userPassword = request.getParameter("userPassword");
-        System.out.println(userCode + ":" + userPassword);
         UserServiceImpl service = new UserServiceImpl();
         try {
             if (service.userVerify(userCode, userPassword)) {

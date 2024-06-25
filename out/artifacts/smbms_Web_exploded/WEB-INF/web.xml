@@ -17,6 +17,15 @@
         <url-pattern>/login.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>com.company.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout.do</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>com.company.filter.LoginFilter</filter-class>
