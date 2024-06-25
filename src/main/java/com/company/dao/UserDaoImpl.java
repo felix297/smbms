@@ -3,6 +3,8 @@ package com.company.dao;
 import java.sql.PreparedStatement;
 import com.company.pojo.User;
 import com.company.util.JDBCUtil;
+import org.junit.jupiter.api.Test;
+
 import java.sql.ResultSet;
 import java.sql.Connection;
 
@@ -15,7 +17,7 @@ public class UserDaoImpl implements UserDao {
         String sql = "select * from smbms_user where userCode = ?;";
         User user = null;
         Object[] params = {userCode};
-        res = BaseDao.selectByAttribute(connection, preparedStatement, res, sql, params);
+        res = BaseDao.executeQuery(connection, preparedStatement, res, sql, params);
         try {
             while (res != null && res.next()) {
                 user = new User();
@@ -40,5 +42,22 @@ public class UserDaoImpl implements UserDao {
         }
 
         return user;
+    }
+
+    @Override
+    public int updateUserPasswordByUserCode (String userCode, String newUserPassword) {
+        Integer modifiedCount = null;
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            String sql = "update smbms_user set userPassword = ? where userCode = ?;";
+            Object[] params = {newUserPassword, userCode};
+            modifiedCount = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.closeAll(connection, preparedStatement);
+        }
+        return modifiedCount;
     }
 }

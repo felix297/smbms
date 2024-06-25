@@ -1,5 +1,8 @@
 package com.company.service;
 
+import com.company.pojo.User;
+
 public interface UserService {
-    public boolean userVerify(String userCode, String userPassword);
+    public User userVerify(String userCode, String userPassword);
+    public boolean pwdModify(String userCode, String newUserPassword);
 }

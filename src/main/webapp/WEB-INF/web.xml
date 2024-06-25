@@ -26,6 +26,16 @@
         <url-pattern>/logout.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>pwdmodify</servlet-name>
+        <servlet-class>com.company.servlet.PasswordModifyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pwdmodify</servlet-name>
+        <url-pattern>/jsp/user.do</url-pattern>
+    </servlet-mapping>
+
+
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>com.company.filter.LoginFilter</filter-class>

@@ -1,5 +1,6 @@
 package com.company.servlet;
 
+import com.company.pojo.User;
 import com.company.service.UserServiceImpl;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,11 @@ public class UserVerifyServlet extends HttpServlet {
         String userCode = request.getParameter("userCode");
         String userPassword = request.getParameter("userPassword");
         UserServiceImpl service = new UserServiceImpl();
+        User user = service.userVerify(userCode, userPassword);
         try {
-            if (service.userVerify(userCode, userPassword)) {
+            if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("sessionId", session.getId());
+                session.setAttribute("sessionId", user);
                 response.sendRedirect("jsp/frame.jsp");
             } else {
                 request.setAttribute("error", "用户名或密码错误！");

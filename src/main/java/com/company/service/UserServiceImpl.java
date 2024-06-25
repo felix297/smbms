@@ -11,8 +11,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userVerify (String userCode, String userPassword) {
+    public User userVerify (String userCode, String userPassword) {
         User user = userDao.selectByUserCode(userCode);
-        return user != null && user.getUserPassword().equals(userPassword);
+        if (user == null || !user.getUserPassword().equals(userPassword)) {
+            user = null;
+        }
+
+        return user;
+    }
+
+    @Override
+    public boolean pwdModify (String userCode, String newUserPassword) {
+        return userDao.updateUserPasswordByUserCode(userCode, newUserPassword) > 0;
     }
 }
