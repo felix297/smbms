@@ -16,7 +16,7 @@ $(function(){
 	oldpassword.on("blur",function(){
 		$.ajax({
 			type:"GET",
-			url:path+"/jsp/user.do",
+			url:path+"/user/password-modify",
 			data:{method:"loginVerify",oldpassword:oldpassword.val()},
 			dataType:"json",
 			success:function(data){
@@ -76,6 +76,5 @@ $(function(){
 				$("#userForm").submit();
 			}
 		}
-		
 	});
 });

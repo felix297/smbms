@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
     public boolean pwdModify (String userCode, String newUserPassword) {
         return userDao.updateUserPasswordByUserCode(userCode, newUserPassword) > 0;
     }
+
+    @Override
+    public int getUserNumber () {
+        return userDao.getUserNumber();
+    }
 }

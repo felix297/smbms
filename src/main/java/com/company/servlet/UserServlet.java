@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PasswordModifyServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
     @Override
     public void doGet (HttpServletRequest request, HttpServletResponse response) {
         String method = request.getParameter("method");
@@ -21,7 +21,6 @@ public class PasswordModifyServlet extends HttpServlet {
             this.loginVerify(request, response);
         } else if (method.equals("passwordModify")) {
             this.passwordModify(request, response);
-
         } else {
         }
     }
@@ -44,7 +43,7 @@ public class PasswordModifyServlet extends HttpServlet {
         }
 
         try {
-            request.getRequestDispatcher("pwdmodify.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/pwdmodify.jsp").forward(request, response);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {

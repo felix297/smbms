@@ -18,9 +18,9 @@
         <p><strong>用户名称：</strong><span>${user.userName }</span></p>
         <p><strong>用户性别：</strong>
             <span>
-            		<c:if test="${user.gender == 1 }">男</c:if>
-					<c:if test="${user.gender == 2 }">女</c:if>
-				</span>
+                <c:if test="${user.gender == 1 }">男</c:if>
+                <c:if test="${user.gender == 2 }">女</c:if>
+            </span>
         </p>
         <p><strong>出生日期：</strong><span>${user.birthday }</span></p>
         <p><strong>用户电话：</strong><span>${user.phone }</span></p>
@@ -33,4 +33,4 @@
 </div>
 </section>
 <%@include file="/jsp/common/foot.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/userview.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/userview.js"></script>

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 
-public class UserVerifyServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     @Override
     public void doGet (HttpServletRequest request, HttpServletResponse response) {
         String userCode = request.getParameter("userCode");

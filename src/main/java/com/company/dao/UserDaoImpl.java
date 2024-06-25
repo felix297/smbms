@@ -1,10 +1,10 @@
 package com.company.dao;
 
+import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import com.company.pojo.User;
 import com.company.util.JDBCUtil;
 import org.junit.jupiter.api.Test;
-
 import java.sql.ResultSet;
 import java.sql.Connection;
 
@@ -60,4 +60,26 @@ public class UserDaoImpl implements UserDao {
         }
         return modifiedCount;
     }
+
+    @Override
+    public int getUserNumber () {
+        Integer count = null;
+        String sql = "select count(1) from smbms_user;";
+
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet res = null;
+        res = BaseDao.executeQuery(connection, preparedStatement, res, sql, null);
+
+        try {
+            while(res != null && res.next()) {
+                count = res.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
 }
