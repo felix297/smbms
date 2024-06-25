@@ -8,7 +8,7 @@
     </div>
     <div class="providerAdd">
         <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath}/jsp/user.do">
-            <input type="hidden" name="method" value="savepwd">
+            <input type="hidden" name="method" value="passwordModify">
             <!--div的class 为error是验证错误，ok是验证成功-->
             <div class="info">${message}</div>
             <div class="">
@@ -28,11 +28,10 @@
             </div>
             <div class="providerAddBtn">
                 <!--<a href="#">保存</a>-->
-                <input type="submit" name="save" id="save" value="保存" class="input-button">
+                <input type="button" name="save" id="save" value="保存" class="input-button">
             </div>
         </form>
     </div>
 </div>
 </section>
 <%@include file="/jsp/common/foot.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/pwdmodify.js"></script>
