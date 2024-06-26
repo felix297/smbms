@@ -1,5 +1,6 @@
 package com.company.dao;
 
+import com.company.util.Constant;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -67,7 +68,7 @@ public class UserDaoImpl implements UserDao {
     public int getUserNumber (String queryName, int queryRole) {
         Integer count = null;
         String sql = "select count(1) from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id ";
-        ResultSet res = selectAllUtil (queryName, queryRole, sql);
+        ResultSet res = selectAllUtil (queryName, queryRole, sql, 0);
 
         try {
             while(res != null && res.next()) {
@@ -81,10 +82,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public ArrayList<User> selectAllUser (String queryName, int queryRole) {
+    public ArrayList<User> selectAllUser (String queryName, int queryRole, int currentPageNum) {
         String sql = "select smbms_user.*, smbms_role.roleName as userRoleName from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id ";
         ArrayList<User> userList = null;
-        ResultSet res = selectAllUtil (queryName, queryRole, sql);
+        ResultSet res = selectAllUtil (queryName, queryRole, sql, currentPageNum);
 
         try {
             if (res != null) {
@@ -116,22 +117,29 @@ public class UserDaoImpl implements UserDao {
 
     @Test
     public void test () {
-        ArrayList<User> userList = selectAllUser(null, 3);
+        ArrayList<User> userList = selectAllUser(null, 0, 1);
         for (User ele : userList) {
-            System.out.println(ele.getAge());
+            System.out.println(ele.toString());
         }
     }
 
-    public ResultSet selectAllUtil (String queryName, int queryRole, String sql) {
+    public ResultSet selectAllUtil (String queryName, int queryRole, String sql, int currentPageNum) {
         ArrayList<Object> params = new ArrayList<>();
         if (!StringUtils.isNullOrEmpty(queryName)) {
-            sql = sql.concat("and smbms_user.userName like ?");
+            sql = sql.concat("and smbms_user.userName like ? ");
             params.add("%" + queryName + "%");
         }
 
         if (queryRole > 0) {
-            sql = sql.concat("and smbms_user.userRole = ?");
+            sql = sql.concat("and smbms_user.userRole = ? ");
             params.add(queryRole);
+        }
+
+        if (currentPageNum > 0) {
+            sql = sql + "order by creationDate DESC limit ?,? ";
+
+            params.add((currentPageNum - 1) * Constant.getPageSize());
+            params.add(Constant.getPageSize());
         }
 
         Connection connection = JDBCUtil.getConnection();

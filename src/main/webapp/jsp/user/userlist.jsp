@@ -9,7 +9,7 @@
 
     <%-- 条件查询 --%>
     <div class="search">
-        <form method="post" action="/user/userlist.html?pageNum=">
+        <form method="post" action="${pageContext.request.contextPath}/user?method=queryUser">
             <input name="method" value="query" class="input-text" type="hidden">
             <span>用户名：</span><input name="queryName" class="input-text"	type="text" value="${queryUserName}">
             <span>用户角色：</span>
@@ -55,8 +55,8 @@
                 </td>
                 <td>
 							<span>
-								<c:if test="${user.gender=='male'}">男</c:if>
-								<c:if test="${user.gender=='male'}">女</c:if>
+								<c:if test="${user.gender=='man'}">男</c:if>
+								<c:if test="${user.gender=='woman'}">女</c:if>
 							</span>
                 </td>
                 <td>
@@ -70,17 +70,17 @@
                 </td>
                 <td>
 							<span>
-								<a class="viewUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+								<a class="viewUser" href="javascript:;" userid=${user.id} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/read.png" alt="查看" title="查看"/>
 								</a>
 							</span>
                     <span>
-								<a class="modifyUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+								<a class="modifyUser" href="javascript:;" userid=${user.id} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/xiugai.png" alt="修改" title="修改"/>
 								</a>
 							</span>
                     <span>
-								<a class="deleteUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+								<a class="deleteUser" href="javascript:;" userid=${user.id} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/schu.png" alt="删除" title="删除"/>
 								</a>
 							</span>

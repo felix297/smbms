@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ArrayList<User> selectAllUser (String queryName, int queryRole) {
-        return userDao.selectAllUser(queryName, queryRole);
+    public ArrayList<User> selectAllUser (String queryName, int queryRole, int currentPageNum) {
+        return userDao.selectAllUser(queryName, queryRole, currentPageNum);
     }
 }

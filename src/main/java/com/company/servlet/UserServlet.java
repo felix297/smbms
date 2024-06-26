@@ -1,5 +1,6 @@
 package com.company.servlet;
 
+import com.company.util.Constant;
 import com.company.service.RoleServiceImpl;
 import java.util.ArrayList;
 import com.company.pojo.Role;
@@ -37,22 +38,25 @@ public class UserServlet extends HttpServlet {
     public void queryUser (HttpServletRequest request, HttpServletResponse response) {
         String queryName = request.getParameter("queryName");
         String queryRole = request.getParameter("queryUserRole");
+        String pageIndex = request.getParameter("pageIndex");
+        int totalCount = this.getTotalCount(queryName, queryRole);
+        int currentPageNum = 1;
+        if (pageIndex != null) {
+            currentPageNum = Integer.parseInt(pageIndex);
+        }
 
-
-
-
-
-
-        request.setAttribute("totalCount", this.getTotalCount(queryName, queryRole));
+        request.setAttribute("totalCount", totalCount);
+        request.setAttribute("currentPageNo", currentPageNum);
+        request.setAttribute("totalPageCount", (int) Math.ceil((double) totalCount/Constant.getPageSize()));
         request.setAttribute("queryUserName", queryName);
         request.setAttribute("queryUserRole", queryRole);
         request.setAttribute("roleList", this.selectAllRole());
-        request.setAttribute("userList", this.selectAllUser(queryName, queryRole));
+        request.setAttribute("userList", this.selectAllUser(queryName, queryRole, currentPageNum));
 
         this.dispatcher(request, response, "/jsp/user/userlist.jsp");
     }
 
-    public ArrayList<User> selectAllUser (String queryName, String queryRole) {
+    public ArrayList<User> selectAllUser (String queryName, String queryRole, int currentPageNum) {
         int queryUserRole = 0;
 
         if(queryRole != null && !queryRole.equals("")){
@@ -60,7 +64,7 @@ public class UserServlet extends HttpServlet {
         }
 
         UserServiceImpl userService = new UserServiceImpl();
-        return userService.selectAllUser(queryName, queryUserRole);
+        return userService.selectAllUser(queryName, queryUserRole, currentPageNum);
     }
 
     public ArrayList<Role> selectAllRole () {
