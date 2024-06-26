@@ -45,43 +45,43 @@
             <th width="10%">用户角色</th>
             <th width="30%">操作</th>
         </tr>
-        <c:forEach var="userDTO" items="${userDTOList }" varStatus="status">
+        <c:forEach var="user" items="${userList}" varStatus="status">
             <tr>
                 <td>
-                    <span>${userDTO.userCode }</span>
+                    <span>${user.userCode}</span>
                 </td>
                 <td>
-                    <span>${userDTO.userName }</span>
-                </td>
-                <td>
-							<span>
-								<c:if test="${userDTO.gender==1}">男</c:if>
-								<c:if test="${userDTO.gender==2}">女</c:if>
-							</span>
-                </td>
-                <td>
-                    <span>${userDTO.age}</span>
-                </td>
-                <td>
-                    <span>${userDTO.phone}</span>
-                </td>
-                <td>
-                    <span>${userDTO.userRoleName}</span>
+                    <span>${user.userName}</span>
                 </td>
                 <td>
 							<span>
-								<a class="viewUser" href="javascript:;" userid=${userDTO.id } username=${userDTO.userName }>
-									<img src="/statics/images/read.png" alt="查看" title="查看"/>
+								<c:if test="${user.gender=='male'}">男</c:if>
+								<c:if test="${user.gender=='male'}">女</c:if>
+							</span>
+                </td>
+                <td>
+                    <span>${user.age}</span>
+                </td>
+                <td>
+                    <span>${user.phone}</span>
+                </td>
+                <td>
+                    <span>${user.userRoleName}</span>
+                </td>
+                <td>
+							<span>
+								<a class="viewUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+									<img src="${pageContext.request.contextPath}/images/read.png" alt="查看" title="查看"/>
 								</a>
 							</span>
                     <span>
-								<a class="modifyUser" href="javascript:;" userid=${userDTO.id } username=${userDTO.userName }>
-									<img src="/statics/images/xiugai.png" alt="修改" title="修改"/>
+								<a class="modifyUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+									<img src="${pageContext.request.contextPath}/images/xiugai.png" alt="修改" title="修改"/>
 								</a>
 							</span>
                     <span>
-								<a class="deleteUser" href="javascript:;" userid=${userDTO.id } username=${userDTO.userName }>
-									<img src="/statics/images/schu.png" alt="删除" title="删除"/>
+								<a class="deleteUser" href="javascript:;" userid=${user.id } username=${user.userName }>
+									<img src="${pageContext.request.contextPath}/images/schu.png" alt="删除" title="删除"/>
 								</a>
 							</span>
                 </td>

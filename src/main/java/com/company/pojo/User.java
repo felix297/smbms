@@ -1,12 +1,14 @@
 package com.company.pojo;
 
+import java.util.Date;
+
 public class User {
     private int id;
     private String userCode;
     private String userName;
     private String userPassword;
     private String gender;
-    private String birthday;
+    private Date birthday;
     private String phone;
     private String address;
     private String userRole;
@@ -14,6 +16,21 @@ public class User {
     private String creationDate;
     private String modifyBy;
     private String modifyDate;
+    private int age;
+    private String userRoleName;
+    public int getAge() {
+        Date date = new Date();
+        Integer age = date.getYear()-birthday.getYear();
+        return age;
+    }
+
+    public String getUserRoleName() {
+        return userRoleName;
+    }
+
+    public void setUserRoleName(String userRoleName) {
+        this.userRoleName = userRoleName;
+    }
 
     public void setId (int id) {
         this.id = id;
@@ -35,7 +52,7 @@ public class User {
         this.gender = gender;
     }
 
-    public void setBirthday (String birthday) {
+    public void setBirthday (Date birthday) {
         this.birthday = birthday;
     }
 
@@ -87,7 +104,7 @@ public class User {
         return this.gender;
     }
 
-    public String getBirthday () {
+    public Date getBirthday () {
         return this.birthday;
     }
 

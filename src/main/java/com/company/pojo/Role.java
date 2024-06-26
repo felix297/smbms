@@ -8,6 +8,7 @@ public class Role {
     private String creationDate;
     private String modifyBy;
     private String modifyDate;
+
     public void setId (int id) {
         this.id = id;
     }

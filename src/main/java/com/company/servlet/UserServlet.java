@@ -47,8 +47,20 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("queryUserName", queryName);
         request.setAttribute("queryUserRole", queryRole);
         request.setAttribute("roleList", this.selectAllRole());
+        request.setAttribute("userList", this.selectAllUser(queryName, queryRole));
 
         this.dispatcher(request, response, "/jsp/user/userlist.jsp");
+    }
+
+    public ArrayList<User> selectAllUser (String queryName, String queryRole) {
+        int queryUserRole = 0;
+
+        if(queryRole != null && !queryRole.equals("")){
+            queryUserRole = Integer.parseInt(queryRole);
+        }
+
+        UserServiceImpl userService = new UserServiceImpl();
+        return userService.selectAllUser(queryName, queryUserRole);
     }
 
     public ArrayList<Role> selectAllRole () {

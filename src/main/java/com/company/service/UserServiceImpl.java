@@ -1,5 +1,6 @@
 package com.company.service;
 
+import java.util.ArrayList;
 import com.company.pojo.User;
 import com.company.dao.UserDaoImpl;
 import com.company.dao.UserDao;
@@ -28,5 +29,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int getUserNumber (String queryName, int queryRole) {
         return userDao.getUserNumber(queryName, queryRole);
+    }
+
+    @Override
+    public ArrayList<User> selectAllUser (String queryName, int queryRole) {
+        return userDao.selectAllUser(queryName, queryRole);
     }
 }
