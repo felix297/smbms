@@ -1,9 +1,11 @@
 package com.company.dao;
 
+import java.util.ArrayList;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import com.company.pojo.User;
 import com.company.util.JDBCUtil;
+import com.mysql.cj.util.StringUtils;
 import org.junit.jupiter.api.Test;
 import java.sql.ResultSet;
 import java.sql.Connection;
@@ -62,14 +64,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int getUserNumber () {
+    public int getUserNumber (String queryName, int queryRole) {
         Integer count = null;
-        String sql = "select count(1) from smbms_user;";
+        ArrayList<Object> params = new ArrayList<>();
+        String sql = "select count(1) from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id ";
+        if (!StringUtils.isNullOrEmpty(queryName)) {
+            sql = sql.concat("and smbms_user.userName like ?");
+            params.add("%" + queryName + "%");
+        }
+
+        if (queryRole > 0) {
+            sql = sql.concat("and smbms_user.userRole = ?");
+            params.add(queryRole);
+        }
 
         Connection connection = JDBCUtil.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet res = null;
-        res = BaseDao.executeQuery(connection, preparedStatement, res, sql, null);
+        res = BaseDao.executeQuery(connection, preparedStatement, res, sql, params.toArray());
 
         try {
             while(res != null && res.next()) {
@@ -81,5 +93,4 @@ public class UserDaoImpl implements UserDao {
 
         return count;
     }
-
 }

@@ -1,5 +1,8 @@
 package com.company.servlet;
 
+import com.company.service.RoleServiceImpl;
+import java.util.ArrayList;
+import com.company.pojo.Role;
 import java.io.PrintWriter;
 import com.alibaba.fastjson2.JSONArray;
 import com.mysql.cj.util.StringUtils;
@@ -21,13 +24,60 @@ public class UserServlet extends HttpServlet {
             this.loginVerify(request, response);
         } else if (method.equals("passwordModify")) {
             this.passwordModify(request, response);
-        } else {
+        } else if (method.equals("queryUser")) {
+            this.queryUser(request, response);
         }
     }
 
     @Override
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
+    }
+
+    public void queryUser (HttpServletRequest request, HttpServletResponse response) {
+        String queryName = request.getParameter("queryName");
+        String queryRole = request.getParameter("queryUserRole");
+
+
+
+
+
+
+        request.setAttribute("totalCount", this.getTotalCount(queryName, queryRole));
+        request.setAttribute("queryUserName", queryName);
+        request.setAttribute("queryUserRole", queryRole);
+        request.setAttribute("roleList", this.selectAllRole());
+
+        this.dispatcher(request, response, "/jsp/user/userlist.jsp");
+    }
+
+    public ArrayList<Role> selectAllRole () {
+        RoleServiceImpl roleService = new RoleServiceImpl();
+        return roleService.selectAllRole();
+    }
+
+    public int getTotalCount(String queryName, String queryRole) {
+        int totalCount = 0;
+        int queryUserRole = 0;
+
+        if(queryRole != null && !queryRole.equals("")){
+            queryUserRole = Integer.parseInt(queryRole);
+        }
+
+        UserServiceImpl userService = new UserServiceImpl();
+        totalCount = userService.getUserNumber(queryName, queryUserRole);
+
+        return totalCount;
+    }
+
+    public void dispatcher (HttpServletRequest request, HttpServletResponse response, String path) {
+        try {
+            request.getRequestDispatcher(path).forward(request, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
     }
 
     public void passwordModify (HttpServletRequest request, HttpServletResponse response) {

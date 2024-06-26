@@ -5,5 +5,5 @@ import com.company.pojo.User;
 public interface UserService {
     public User userVerify(String userCode, String userPassword);
     public boolean pwdModify(String userCode, String newUserPassword);
-    public int getUserNumber();
+    public int getUserNumber(String queryName, int queryRole);
 }
