@@ -70,7 +70,7 @@
                 </td>
                 <td>
 							<span>
-								<a class="viewUser" href="javascript:;" userid=${user.id} username=${user.userName}>
+								<a class="viewUser" href="javascript:;" userCode=${user.userCode} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/read.png" alt="查看" title="查看"/>
 								</a>
 							</span>
@@ -80,7 +80,7 @@
 								</a>
 							</span>
                     <span>
-								<a class="deleteUser" href="javascript:;" userid=${user.id} username=${user.userName}>
+								<a class="deleteUser" href="javascript:;" userCode=${user.userCode} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/schu.png" alt="删除" title="删除"/>
 								</a>
 							</span>
@@ -112,5 +112,5 @@
     </div>
 </div>
 
-<%@include file="/jsp/common/foot.jsp" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/userlist.js"></script>
+<%@include file="/jsp/common/foot.jsp" %>

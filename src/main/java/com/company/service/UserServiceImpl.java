@@ -14,6 +14,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean deleteByUserCode (String userCode) {
+        return userDao.deleteByUserCode(userCode) > 0;
+    }
+
+    @Override
     public boolean addUser(User user) {
         return userDao.addUser(user) > 0;
     }
@@ -42,6 +47,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return res;
+    }
+
+    @Override
+    public User getUserInfo (String userCode) {
+        return userDao.getUserInfo(userCode);
     }
 
     @Override

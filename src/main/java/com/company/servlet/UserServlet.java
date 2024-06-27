@@ -44,17 +44,44 @@ public class UserServlet extends HttpServlet {
                 out.flush();
                 out.close();
             }
-        }
-        else if (method.equals("ucexist")) {
+        } else if (method.equals("ucexist")) {
             this.ucexist(request, response);
         } else if (method.equals("add")) {
             this.add(request, response);
+        } else if (method.equals("selectByUserCode")) {
+            this.selectByUserCode(request, response);
+        } else if (method.equals("delUser")) {
+            this.deleteByUserCode(request, response);
         }
     }
 
     @Override
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
+    }
+
+    public void deleteByUserCode(HttpServletRequest request, HttpServletResponse response) {
+        String userCode = request.getParameter("userCode");
+        HashMap<String, String> delResult = new HashMap<>();
+        UserServiceImpl userService = new UserServiceImpl();
+        if (userCode == null) {
+            delResult.put("delResult", "notexist");
+        } else {
+            if (userService.deleteByUserCode(userCode)) {
+                delResult.put("delResult", "true");
+            } else {
+                delResult.put("delResult", "false");
+            }
+        }
+
+        this.returnJSONRes(response, delResult);
+    }
+
+    public void selectByUserCode(HttpServletRequest request, HttpServletResponse response) {
+        String userCode = request.getParameter("userCode");
+        UserServiceImpl userService = new UserServiceImpl();
+        request.setAttribute("user", userService.getUserInfo(userCode));
+        this.dispatcher(request, response, "/jsp/user/userview.jsp");
     }
 
     public void add (HttpServletRequest request, HttpServletResponse response) {
@@ -87,7 +114,7 @@ public class UserServlet extends HttpServlet {
         if (userService.addUser(user)) {
             this.sendRedirect(request, response, request.getContextPath() + "/user?method=queryUser");
         } else {
-            this.dispatcher(request, response, request.getContextPath() + "/jsp/user/useradd.jsp");
+            this.dispatcher(request, response, "/jsp/user/useradd.jsp");
         }
     }
 
@@ -103,19 +130,9 @@ public class UserServlet extends HttpServlet {
         String userCode = request.getParameter("userCode");
         UserServiceImpl userService = new UserServiceImpl();
 
-        response.setContentType("application/json");
-        PrintWriter out = null;
-        try {
-            out = response.getWriter();
-            out.write(JSONArray.toJSONString(userService.selectByUserCode(userCode)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            out.flush();
-            out.close();
-        }
-        userService.selectByUserCode(userCode);
+        returnJSONRes(response, userService.selectByUserCode(userCode));
     }
+
     public void queryUser (HttpServletRequest request, HttpServletResponse response) {
         String queryName = request.getParameter("queryName");
         String queryRole = request.getParameter("queryUserRole");
@@ -229,6 +246,20 @@ public class UserServlet extends HttpServlet {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void returnJSONRes (HttpServletResponse response, Object obj) {
+        response.setContentType("application/json");
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.write(JSONArray.toJSONString(obj));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            out.flush();
+            out.close();
         }
     }
 }

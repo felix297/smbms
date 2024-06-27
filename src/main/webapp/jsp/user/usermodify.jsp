@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yanguobin
-  Date: 2019/9/13
-  Time: 9:12 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@include file="/jsp/common/head.jsp"%>
@@ -15,10 +8,10 @@
     </div>
     <div class="providerAdd">
         <form id="userForm" name="userForm" method="post" action="/user/usermodifysave.html">
-            <input type="hidden" name="id" value="${user.id }"/>
+            <input type="hidden" name="id" value="${user.id}"/>
             <div>
                 <label for="userName">用户名称：</label>
-                <input type="text" name="userName" id="userName" value="${user.userName }">
+                <input type="text" name="userName" id="userName" value="${user.userName}">
                 <font color="red"></font>
             </div>
             <div>
@@ -37,19 +30,19 @@
                 </select>
             </div>
             <div>
-                <label for="data">出生日期：</label>
+                <label for="birthday">出生日期：</label>
                 <input type="text" Class="Wdate" id="birthday" name="birthday" value="${user.birthday }"
                        readonly="readonly" onclick="WdatePicker();">
                 <font color="red"></font>
             </div>
 
             <div>
-                <label for="userphone">用户电话：</label>
+                <label for="phone">用户电话：</label>
                 <input type="text" name="phone" id="phone" value="${user.phone }">
                 <font color="red"></font>
             </div>
             <div>
-                <label for="userAddress">用户地址：</label>
+                <label for="address">用户地址：</label>
                 <input type="text" name="address" id="address" value="${user.address }">
             </div>
             <div>
@@ -88,4 +81,4 @@
 </div>
 </section>
 <%@include file="/jsp/common/foot.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/usermodify.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/usermodify.js"></script>

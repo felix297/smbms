@@ -15,6 +15,17 @@ import java.sql.Connection;
 
 public class UserDaoImpl implements UserDao {
     @Override
+    public int deleteByUserCode (String userCode) {
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "delete from smbms_user where userCode = ?;";
+        Object[] params = {userCode};
+
+        return BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+    }
+
+    @Override
     public int addUser (User user) {
         Connection connection = JDBCUtil.getConnection();
         PreparedStatement preparedStatement = null;
@@ -61,6 +72,42 @@ public class UserDaoImpl implements UserDao {
                 user.setCreationDate(res.getString(11));
                 user.setModifyBy(res.getString(12));
                 user.setModifyDate(res.getString(13));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.closeAll(connection, preparedStatement, res);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getUserInfo (String userCode) {
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet res = null;
+        String sql = "select smbms_user.*, smbms_role.roleName as userRoleName from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id and userCode=?;";
+        User user = null;
+        Object[] params = {userCode};
+        res = BaseDao.executeQuery(connection, preparedStatement, res, sql, params);
+        try {
+            while (res != null && res.next()) {
+                user = new User();
+                user.setId(res.getInt(1));
+                user.setUserCode(res.getString(2));
+                user.setUserName(res.getString(3));
+                user.setUserPassword(res.getString(4));
+                user.setGender(res.getString(5));
+                user.setBirthday(res.getDate(6));
+                user.setPhone(res.getString(7));
+                user.setAddress(res.getString(8));
+                user.setUserRole(res.getString(9));
+                user.setCreatedBy(res.getString(10));
+                user.setCreationDate(res.getString(11));
+                user.setModifyBy(res.getString(12));
+                user.setModifyDate(res.getString(13));
+                user.setUserRoleName(res.getString(14));
             }
         } catch (Exception e) {
             e.printStackTrace();

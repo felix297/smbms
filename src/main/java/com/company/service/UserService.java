@@ -11,4 +11,6 @@ public interface UserService {
     public ArrayList<User> selectAllUser(String queryName, int queryRole, int currentPageNum);
     public HashMap<String, String> selectByUserCode(String userCode);
     public boolean addUser(User user);
+    public User getUserInfo(String userCode);
+    public boolean deleteByUserCode (String userCode);
 }
