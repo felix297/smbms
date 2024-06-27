@@ -15,14 +15,14 @@
         <span>用户管理页面 >> 用户添加页面</span>
     </div>
     <div class="providerAdd">
-        <form id="userForm" name="userForm" method="post" action="/user/useraddsave.html">
+        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath}/user">
             <input type="hidden" name="method" value="add">
             <!--div的class 为error是验证错误，ok是验证成功-->
             <div>
                 <label for="userCode">用户编码：</label>
                 <input type="text" name="userCode" id="userCode" value="">
                 <!-- 放置提示信息 -->
-                <%--<font color="red"></font>--%>
+                <font color="red"></font>
             </div>
             <div>
                 <label for="userName">用户名称：</label>
@@ -42,14 +42,15 @@
             <div>
                 <label >用户性别：</label>
                 <select name="gender" id="gender">
-                    <option value="1" selected="selected">男</option>
-                    <option value="2">女</option>
+                    <option value="man" selected="selected">男</option>
+                    <option value="woman">女</option>
                 </select>
             </div>
             <div>
                 <label for="birthday">出生日期：</label>
                 <input type="text" Class="Wdate" id="birthday" name="birthday"
-                       readonly="readonly" onclick="WdatePicker();">
+                       readonly="readonly" onclick="WdatePicker({el:this});">
+<%--                <input id="birthday" Class="Wdate" name="birthday" readonly type="text" onClick="WdatePicker({el:this})"/>--%>
                 <font color="red"></font>
             </div>
             <div>
@@ -66,9 +67,6 @@
                 <!-- 列出所有的角色分类 -->
                 <!-- <select name="userRole" id="userRole"></select> -->
                 <select name="userRole" id="userRole">
-                    <option value="1">系统管理员</option>
-                    <option value="2">经理</option>
-                    <option value="3" selected="selected">普通用户</option>
                 </select>
                 <font color="red"></font>
             </div>
@@ -81,5 +79,5 @@
 </div>
 </section>
 <%@include file="/jsp/common/foot.jsp" %>
-<script type="text/javascript" src="/statics/js/useradd.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/useradd.js"></script>
 

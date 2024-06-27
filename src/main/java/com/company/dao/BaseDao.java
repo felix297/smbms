@@ -27,8 +27,10 @@ public class BaseDao {
         Integer modifiedCount = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                preparedStatement.setObject(i + 1, params[i]);
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    preparedStatement.setObject(i + 1, params[i]);
+                }
             }
             modifiedCount = preparedStatement.executeUpdate();
         } catch (SQLException e) {

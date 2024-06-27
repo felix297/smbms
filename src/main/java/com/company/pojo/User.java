@@ -20,8 +20,7 @@ public class User {
     private String userRoleName;
     public int getAge() {
         Date date = new Date();
-        Integer age = date.getYear()-birthday.getYear();
-        return age;
+        return date.getYear()-birthday.getYear();
     }
 
     public String getUserRoleName() {

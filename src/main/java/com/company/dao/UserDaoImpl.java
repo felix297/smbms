@@ -1,5 +1,7 @@
 package com.company.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.company.util.Constant;
 import java.util.ArrayList;
 import java.sql.SQLException;
@@ -12,6 +14,28 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 
 public class UserDaoImpl implements UserDao {
+    @Override
+    public int addUser (User user) {
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String userCode = user.getUserCode();
+        String userName = user.getUserName();
+        String userPassword = user.getUserPassword();
+        String gender = user.getGender();
+        Date birthday = user.getBirthday();
+        String phone = user.getPhone();
+        String address = user.getAddress();
+        String userRole = user.getUserRole();
+        String createdBy = "1";
+        String creationDate = dateFormat.format(new Date());
+        String modifyBy = "1";
+        String modifyDate = dateFormat.format(new Date());
+        String sql = "insert into smbms_user values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] params = {null, userCode, userName, userPassword, gender, birthday, phone, address, userRole, createdBy, creationDate, modifyBy, modifyDate};
+        return BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+    }
+
     @Override
     public User selectByUserCode (String userCode) {
         Connection connection = JDBCUtil.getConnection();
@@ -68,7 +92,10 @@ public class UserDaoImpl implements UserDao {
     public int getUserNumber (String queryName, int queryRole) {
         Integer count = null;
         String sql = "select count(1) from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id ";
-        ResultSet res = selectAllUtil (queryName, queryRole, sql, 0);
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet res = null;
+        res = selectAllUtil (connection, preparedStatement, res, queryName, queryRole, sql, 0);
 
         try {
             while(res != null && res.next()) {
@@ -76,6 +103,8 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JDBCUtil.closeAll(connection, preparedStatement, res);
         }
 
         return count;
@@ -85,7 +114,10 @@ public class UserDaoImpl implements UserDao {
     public ArrayList<User> selectAllUser (String queryName, int queryRole, int currentPageNum) {
         String sql = "select smbms_user.*, smbms_role.roleName as userRoleName from smbms_user, smbms_role where smbms_user.userRole = smbms_role.id ";
         ArrayList<User> userList = null;
-        ResultSet res = selectAllUtil (queryName, queryRole, sql, currentPageNum);
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet res = null;
+        res = selectAllUtil (connection, preparedStatement, res, queryName, queryRole, sql, currentPageNum);
 
         try {
             if (res != null) {
@@ -111,19 +143,13 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JDBCUtil.closeAll(connection, preparedStatement, res);
         }
         return userList;
     }
 
-    @Test
-    public void test () {
-        ArrayList<User> userList = selectAllUser(null, 0, 1);
-        for (User ele : userList) {
-            System.out.println(ele.toString());
-        }
-    }
-
-    public ResultSet selectAllUtil (String queryName, int queryRole, String sql, int currentPageNum) {
+    public ResultSet selectAllUtil (Connection connection, PreparedStatement preparedStatement, ResultSet res, String queryName, int queryRole, String sql, int currentPageNum) {
         ArrayList<Object> params = new ArrayList<>();
         if (!StringUtils.isNullOrEmpty(queryName)) {
             sql = sql.concat("and smbms_user.userName like ? ");
@@ -142,9 +168,6 @@ public class UserDaoImpl implements UserDao {
             params.add(Constant.getPageSize());
         }
 
-        Connection connection = JDBCUtil.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet res = null;
         res = BaseDao.executeQuery(connection, preparedStatement, res, sql, params.toArray());
 
         return res;

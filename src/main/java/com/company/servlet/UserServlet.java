@@ -1,5 +1,8 @@
 package com.company.servlet;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import com.company.util.Constant;
 import com.company.service.RoleServiceImpl;
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpSession;
 import com.company.pojo.User;
 import com.company.service.UserServiceImpl;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,23 @@ public class UserServlet extends HttpServlet {
             this.passwordModify(request, response);
         } else if (method.equals("queryUser")) {
             this.queryUser(request, response);
+        } else if (method.equals("getrolelist")) {
+            response.setContentType("application/json");
+            PrintWriter out = null;
+            try {
+                out = response.getWriter();
+                out.write(JSONArray.toJSONString(this.selectAllRole()));
+            }catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                out.flush();
+                out.close();
+            }
+        }
+        else if (method.equals("ucexist")) {
+            this.ucexist(request, response);
+        } else if (method.equals("add")) {
+            this.add(request, response);
         }
     }
 
@@ -35,6 +57,65 @@ public class UserServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    public void add (HttpServletRequest request, HttpServletResponse response) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+        String userCode = request.getParameter("userCode");
+        String userName = request.getParameter("userName");
+        String userPassword = request.getParameter("userPassword");
+        String gender = request.getParameter("gender");
+        Date birthday = null;
+        try {
+            birthday = dateFormat.parse(request.getParameter("birthday"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String userRole = request.getParameter("userRole");
+
+        User user = new User();
+        user.setUserCode(userCode);
+        user.setUserName(userName);
+        user.setUserPassword(userPassword);
+        user.setGender(gender);
+        user.setBirthday(birthday);
+        user.setPhone(phone);
+        user.setAddress(address);
+        user.setUserRole(userRole);
+
+        UserServiceImpl userService = new UserServiceImpl();
+        if (userService.addUser(user)) {
+            this.sendRedirect(request, response, request.getContextPath() + "/user?method=queryUser");
+        } else {
+            this.dispatcher(request, response, request.getContextPath() + "/jsp/user/useradd.jsp");
+        }
+    }
+
+    @Test
+    public void test () {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("birthday")).thenReturn("1994-06-06");
+        add(request, response);
+    }
+
+    public void ucexist(HttpServletRequest request, HttpServletResponse response) {
+        String userCode = request.getParameter("userCode");
+        UserServiceImpl userService = new UserServiceImpl();
+
+        response.setContentType("application/json");
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.write(JSONArray.toJSONString(userService.selectByUserCode(userCode)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            out.flush();
+            out.close();
+        }
+        userService.selectByUserCode(userCode);
+    }
     public void queryUser (HttpServletRequest request, HttpServletResponse response) {
         String queryName = request.getParameter("queryName");
         String queryRole = request.getParameter("queryUserRole");
@@ -44,7 +125,6 @@ public class UserServlet extends HttpServlet {
         if (pageIndex != null) {
             currentPageNum = Integer.parseInt(pageIndex);
         }
-
         request.setAttribute("totalCount", totalCount);
         request.setAttribute("currentPageNo", currentPageNum);
         request.setAttribute("totalPageCount", (int) Math.ceil((double) totalCount/Constant.getPageSize()));
@@ -92,6 +172,14 @@ public class UserServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendRedirect(HttpServletRequest request, HttpServletResponse response, String location) {
+        try {
+            response.sendRedirect(location);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

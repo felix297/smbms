@@ -1,14 +1,21 @@
 package com.company.service;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 import com.company.pojo.User;
 import com.company.dao.UserDaoImpl;
 import com.company.dao.UserDao;
+import com.mysql.cj.util.StringUtils;
 
 public class UserServiceImpl implements UserService {
-    UserDao userDao;
+    private UserDao userDao;
     public UserServiceImpl () {
         userDao = new UserDaoImpl();
+    }
+
+    @Override
+    public boolean addUser(User user) {
+        return userDao.addUser(user) > 0;
     }
 
     @Override
@@ -19,6 +26,22 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
+    }
+
+    @Override
+    public HashMap<String, String> selectByUserCode (String userCode) {
+        User user = userDao.selectByUserCode(userCode);
+        HashMap<String, String> res = new HashMap<>();
+        if (StringUtils.isNullOrEmpty(userCode)) {
+            res.put("userCode", "exist");
+        } else {
+            if (user == null) {
+                res.put("userCode", "notexist");
+            } else {
+                res.put("userCode", "exist");
+            }
+        }
+        return res;
     }
 
     @Override
