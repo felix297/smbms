@@ -15,9 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean insert (User user) {
-        int res = userDao.insert(user);
-        System.out.println(res);
-        return res > 0;
+        return userDao.insert(user) > 0;
     }
 
     @Override
