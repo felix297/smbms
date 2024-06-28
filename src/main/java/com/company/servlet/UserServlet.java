@@ -44,12 +44,47 @@ public class UserServlet extends HttpServlet {
             this.deleteByUserCode(request, response);
         } else if (method.equals("modifyUser")) {
             this.modifyUser(request, response);
+        } else if (method.equals("commitModify")) {
+            this.commitModify(request, response);
         }
     }
 
     @Override
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
+    }
+
+    public void commitModify (HttpServletRequest request, HttpServletResponse response) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+        String userCode = request.getParameter("userCode");
+        String userName = request.getParameter("userName");
+        String gender = request.getParameter("gender");
+        Date birthday = null;
+        try {
+            birthday = dateFormat.parse(request.getParameter("birthday"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String userRole = request.getParameter("userRole");
+
+        User user = new User();
+        user.setUserCode(userCode);
+        user.setUserName(userName);
+        user.setGender(gender);
+        user.setBirthday(birthday);
+        user.setPhone(phone);
+        user.setAddress(address);
+        user.setUserRole(userRole);
+
+        UserServiceImpl userService = new UserServiceImpl();
+        if (userService.insert(user)) {
+            this.sendRedirect(request, response, request.getContextPath() + "/user?method=queryUser");
+            System.out.println();
+        } else {
+            this.dispatcher(request, response, "/jsp/user/usermodify.jsp");
+        }
     }
 
     public void modifyUser(HttpServletRequest request, HttpServletResponse response){
@@ -104,7 +139,6 @@ public class UserServlet extends HttpServlet {
         User user = new User();
         user.setUserCode(userCode);
         user.setUserName(userName);
-        user.setUserPassword(userPassword);
         user.setGender(gender);
         user.setBirthday(birthday);
         user.setPhone(phone);

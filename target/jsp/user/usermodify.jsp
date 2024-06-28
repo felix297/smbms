@@ -7,8 +7,9 @@
         <span>用户管理页面 >> 用户修改页面</span>
     </div>
     <div class="providerAdd">
-        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath}\user\">
-            <input type="hidden" name="id" value="${user.id}"/>
+        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath}/user">
+            <input type="hidden" name="userCode" value="${user.userCode}"/>
+            <input type="hidden" name="method" value="commitModify"/>
             <div>
                 <label for="userName">用户名称：</label>
                 <input type="text" name="userName" id="userName" value="${user.userName}">
@@ -47,42 +48,17 @@
             </div>
             <div>
                 <label >用户角色：</label>
-                <!-- 列出所有的角色分类 -->
-                <!-- <select name="userRole" id="userRole"></select> -->
                 <select name="userRole" id="userRole">
                     <c:if test="${roleList != null}">
                         <option value="0">--请选择--</option>
                         <c:forEach var="role" items="${roleList}">
-                            <option <c:if test="${role.id == user.userRole}">
-                                selected="selected"
-                            </c:if>
-                                    value="${role.id}">
-
-                                    ${role.roleName}
-                            </option>
+                            <option <c:if test="${role.id == user.userRole}">selected="selected"</c:if> value="${role.id}">${role.roleName}</option>
                         </c:forEach>
                     </c:if>
                 </select>
                 <font color="red"></font>
             </div>
-<%--            <div>--%>
-<%--                <label >用户角色：</label>--%>
-<%--                <select name="queryUserRole">--%>
-<%--                    <c:if test="${roleList != null}">--%>
-<%--                        <option value="0">--请选择--</option>--%>
-<%--                        <c:forEach var="role" items="${roleList}">--%>
-<%--                            <option <c:if test="${role.id == queryUserRole}">--%>
-<%--                                selected="selected"--%>
-<%--                            </c:if>--%>
-<%--                                    value="${role.id}">--%>
 
-<%--                                    ${role.roleName}--%>
-<%--                            </option>--%>
-<%--                        </c:forEach>--%>
-<%--                    </c:if>--%>
-<%--                </select>--%>
-<%--                <font color="red"></font>--%>
-<%--            </div>--%>
             <div class="providerAddBtn">
                 <input type="button" name="save" id="save" value="保存" />
                 <input type="button" id="back" name="back" value="返回"/>
@@ -91,5 +67,5 @@
     </div>
 </div>
 </section>
-<%@include file="/jsp/common/foot.jsp" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/usermodify.js"></script>
+<%@include file="/jsp/common/foot.jsp" %>

@@ -11,4 +11,5 @@ public interface UserDao {
     public ArrayList<User> selectAllUser(String queryName, int queryRole, int currentPageNum);
     public int addUser(User user);
     public int deleteByUserCode(String userCode);
+    public int insert (User user);
 }

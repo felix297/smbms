@@ -15,6 +15,17 @@ import java.sql.Connection;
 
 public class UserDaoImpl implements UserDao {
     @Override
+    public int insert (User user) {
+        Connection connection = JDBCUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "update smbms_user set userName=?, gender=?, birthday=?, phone=?, address=?, userRole=? where userCode=?";
+        Object[] params = {user.getUserName(), user.getGender(), user.getBirthday(), user.getPhone(), user.getAddress(), user.getUserRole(), user.getUserCode()};
+
+        return BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+    }
+
+    @Override
     public int deleteByUserCode (String userCode) {
         Connection connection = JDBCUtil.getConnection();
         PreparedStatement preparedStatement = null;
