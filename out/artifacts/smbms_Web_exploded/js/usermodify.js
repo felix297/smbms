@@ -1,9 +1,9 @@
-var userName = null;
-var birthday = null;
-var phone = null;
-var userRole = null;
-var saveBtn = null;
-var backBtn = null;
+let userName = null;
+let birthday = null;
+let phone = null;
+let userRole = null;
+let saveBtn = null;
+let backBtn = null;
 
 $(function(){
 	userName = $("#userName");
@@ -17,35 +17,55 @@ $(function(){
 	birthday.next().html("*");
 	phone.next().html("*");
 	userRole.next().html("*");
-	
-	
-	$.ajax({
-		type:"GET",//请求类型
-		url:path+"/jsp/user.do",//请求的url
-		data:{method:"getrolelist"},//请求参数
-		dataType:"json",//ajax接口（请求url）返回的数据类型
-		success:function(data){//data：返回数据（json对象）
-			if(data != null){
-				var rid = $("#rid").val();
-				userRole.html("");
-				var options = "<option value=\"0\">请选择</option>";
-				for(var i = 0; i < data.length; i++){
-					//alert(data[i].id);
-					//alert(data[i].roleName);
-					if(rid != null && rid != undefined && data[i].id == rid ){
-						options += "<option selected=\"selected\" value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
-					}else{
-						options += "<option value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
-					}
-					
-				}
-				userRole.html(options);
-			}
-		},
-		error:function(data){//当访问时候，404，500 等非200的错误状态码
-			validateTip(userRole.next(),{"color":"red"},imgNo+" 获取用户角色列表error",false);
-		}
-	});
+
+	// $.ajax({
+	// 	type:"GET",//请求类型
+	// 	url:path+"/user",//请求的url
+	// 	data:{method:"getrolelist"},//请求参数
+	// 	dataType:"json",
+	// 	// success:function(data){
+	// 	// 	if(data != null){
+	// 	// 		userRole.html("");
+	// 	// 		var options = "<option value=\"0\">请选择</option>";
+	// 	// 		for(var i = 0; i < data.length; i++){
+	// 	// 			//alert(data[i].id);
+	// 	// 			//alert(data[i].roleName);
+	// 	// 			options += "<option value=\""+data[i].id+"\">"+data[i].roleName+"</option>";
+	// 	// 		}
+	// 	// 		userRole.html(options);
+	// 	// 	}
+	// 	// },
+	// 	error:function(data){//当访问时候，404，500 等非200的错误状态码
+	// 		validateTip(userRole.next(),{"color":"red"},imgNo+" 获取用户角色列表error",false);
+	// 	}
+	// });
+
+	// $.ajax({
+	// 	type:"GET",//请求类型
+	// 	url:path+"/user",//请求的url
+	// 	data:{method:"getrolelist"},//请求参数
+	// 	dataType:"json",//ajax接口（请求url）返回的数据类型
+	// 	success:function(data){//data：返回数据（json对象）
+	// 		if(data != null){
+	// 			var rid = $("#rid").val();
+	// 			userRole.html("");
+	// 			var options = "<option value=\"0\">请选择</option>";
+	// 			for(var i = 0; i < data.length; i++){
+	//
+	// 				if(rid != null && rid != undefined && data[i].id == rid ){
+	// 					options += "<option selected=\"selected\" value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
+	// 				}else{
+	// 					options += "<option value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
+	// 				}
+	//
+	// 			}
+	// 			userRole.html(options);
+	// 		}
+	// 	},
+	// 	error:function(data){//当访问时候，404，500 等非200的错误状态码
+	// 		validateTip(userRole.next(),{"color":"red"},imgNo+" 获取用户角色列表error",false);
+	// 	}
+	// });
 	
 	
 	userName.on("focus",function(){

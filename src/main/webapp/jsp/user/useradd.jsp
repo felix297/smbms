@@ -1,14 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yanguobin
-  Date: 2018/12/28
-  Time: 10:25 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false" %>
 <%@include file="/jsp/common/head.jsp"%>
-
 <div class="right">
     <div class="location">
         <strong>你现在所在的位置是:</strong>
@@ -50,7 +42,6 @@
                 <label for="birthday">出生日期：</label>
                 <input type="text" Class="Wdate" id="birthday" name="birthday"
                        readonly="readonly" onclick="WdatePicker({el:this});">
-<%--                <input id="birthday" Class="Wdate" name="birthday" readonly type="text" onClick="WdatePicker({el:this})"/>--%>
                 <font color="red"></font>
             </div>
             <div>

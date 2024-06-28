@@ -57,8 +57,7 @@ $(function(){
 	
 	$(".modifyUser").on("click",function(){
 		var obj = $(this);
-		// window.location.href=path+"/jsp/user.do?method=modify&uid="+ obj.attr("userid");
-		window.location.href = "/user/modify.do?uid=" + obj.attr("userid");
+		window.location.href = path + "/user?method=modifyUser&queryUserRole=" + obj.attr("queryUserRole") + "&userCode=" + obj.attr("userCode");
 	});
 
 	$('#no').click(function () {
@@ -69,12 +68,7 @@ $(function(){
         // deleteUser(userObj);
         window.location.href = "/user/delete.do?uid=" + userObj.attr("userid");
 	});
-    // $(".deleteUser").on("click",function(){
-	// 	userObj = $(this);
-	// 	changeDLGContent("你确定要删除用户【"+userObj.attr("username")+"】吗？");
-	// 	openYesOrNoDLG();
-	// });
-	
+
 	$(".deleteUser").on("click",function(){
 		var obj = $(this);
 		if(confirm("你确定要删除用户【"+obj.attr("username")+"】吗？")){

@@ -33,17 +33,7 @@ public class UserServlet extends HttpServlet {
         } else if (method.equals("queryUser")) {
             this.queryUser(request, response);
         } else if (method.equals("getrolelist")) {
-            response.setContentType("application/json");
-            PrintWriter out = null;
-            try {
-                out = response.getWriter();
-                out.write(JSONArray.toJSONString(this.selectAllRole()));
-            }catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                out.flush();
-                out.close();
-            }
+            returnJSONRes(response, this.selectAllRole());
         } else if (method.equals("ucexist")) {
             this.ucexist(request, response);
         } else if (method.equals("add")) {
@@ -52,12 +42,23 @@ public class UserServlet extends HttpServlet {
             this.selectByUserCode(request, response);
         } else if (method.equals("delUser")) {
             this.deleteByUserCode(request, response);
+        } else if (method.equals("modifyUser")) {
+            this.modifyUser(request, response);
         }
     }
 
     @Override
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
+    }
+
+    public void modifyUser(HttpServletRequest request, HttpServletResponse response){
+        String userCode = request.getParameter("userCode");
+        UserServiceImpl userService = new UserServiceImpl();
+
+        request.setAttribute("user", userService.getUserInfo(userCode));
+        request.setAttribute("roleList", this.selectAllRole());
+        this.dispatcher(request, response, "/jsp/user/usermodify.jsp");
     }
 
     public void deleteByUserCode(HttpServletRequest request, HttpServletResponse response) {

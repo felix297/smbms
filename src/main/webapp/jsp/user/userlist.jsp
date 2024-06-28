@@ -75,7 +75,7 @@
 								</a>
 							</span>
                     <span>
-								<a class="modifyUser" href="javascript:;" userid=${user.id} username=${user.userName}>
+								<a class="modifyUser" href="javascript:;" queryUserRole=${user.userRole} userCode=${user.userCode} username=${user.userName}>
 									<img src="${pageContext.request.contextPath}/images/xiugai.png" alt="修改" title="修改"/>
 								</a>
 							</span>
